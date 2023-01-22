@@ -1,9 +1,24 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   return (
     <div>
       <hr />
+      <div className="bg-black text-white">
+        <motion.div
+          initial={{ y: "50%", opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{
+            duration: 0.7,
+            delay: 0.2,
+            ease: "easeOut",
+          }}
+          className="text-6xl text-left md:px-10 md:py-20 font-semibold"
+        >
+          Connect with <br /> me
+        </motion.div>
+      </div>
       <footer class="text-gray-600 body-font">
         <div class="container px-5 py-24 mx-auto">
           <div class="flex flex-wrap md:text-left text-center order-first">

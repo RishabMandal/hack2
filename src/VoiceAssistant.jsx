@@ -117,7 +117,8 @@ export default function VoiceAssistant({
     },
     {
       command: ["Good morning", "Good morning *", "* good morning"],
-      callback: () => speak({ text: "Good morning" + username, voice }),
+      callback: () =>
+        speak({ text: "Good morning" + username, voice }),
     },
     {
       command: "Good afternoon",
@@ -153,7 +154,7 @@ export default function VoiceAssistant({
 
   return (
     <div>
-      <div className="fixed border-2 bottom-20 right-10 z-30 text-black">
+      <div className="fixed border-2 rounded-full bottom-20 right-10 z-30 text-black">
         <p id="transcript"> {transcript}</p>
         {!listening && (
           <button

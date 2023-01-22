@@ -27,7 +27,7 @@ const AdminPasswordContext = createContext({
 
 const Navigation = () => {
   // useContext
-  const [username, setUsername] = useState();
+  const [username, setUsername] = useState("Meow");
   const [password, setPassword] = useState();
   const [AdminUsername, setAdminUsername] = useState();
   const [AdminPassword, setAdminPassword] = useState();
