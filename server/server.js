@@ -1,66 +1,72 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const path = require('path');
+const path = require("path");
 const cors = require("cors");
 const port = 5000;
 
 const app = express();
 app.use(express.json());
-app.use(cors()); 
+app.use(cors());
 
 // EXPRESS
 // app.use('/static', express.static('static'));
 app.use(express.urlencoded({ extended: true }));
 
 // MONGOOSE
-mongoose.set('strictQuery', true);
-mongoose.connect("mongodb://localhost:27017/prac2", {useNewUrlParser: true});
+mongoose.set("strictQuery", true);
+mongoose.connect("mongodb://localhost:27017/prac2", { useNewUrlParser: true });
 
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function(){
-    console.log("We are connected bro");
-})
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function () {
+  console.log("We are connected bro");
+});
 
 //Schema
 var authSchema = new mongoose.Schema({
   username: String,
-  password: String
+  password: String,
 });
 
 //Model
-var Log = mongoose.model('Log', authSchema);
+var Log = mongoose.model("Log", authSchema);
 
 app.post("/signup", (req, res) => {
   console.log(req.body);
-  var myData = new Log(req.body)
-  myData.save().then(()=>{
-    console.log('done');
-    res.send('This data has been saved to the database')
-  }).catch(()=>{
-    console.log('not done');
-      res.status(400).send('Item was not saved to the database')
-  });
+  var myData = new Log(req.body);
+  myData
+    .save()
+    .then(() => {
+      console.log("done");
+      res.send("This data has been saved to the database");
+    })
+    .catch(() => {
+      console.log("not done");
+      res.status(400).send("Item was not saved to the database");
+    });
 });
 
-app.post('/login', (req, res)=>{
+app.post("/login", (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
 
-  // console.log(req.body);
+  console.log(username, password);
 
-  Log.find({username: `${username}`}, {password: `${password}`}, (err, docs)=>{
-      if(docs.length == 0){
-          // console.log('acc not found');
-          res.send('Invalid credentials')
+  Log.find(
+    { username: `${username}` },
+    { password: `${password}` },
+    (err, docs) => {
+      if (docs.length == 0) {
+        // console.log('acc not found');
+        res.send("Invalid credentials");
+      } else {
+        // console.log('acc found');
+        // console.log(username);
+        // const data = true;
+        res.send("true");
       }
-      else{
-          // console.log('acc found');
-          // console.log(username);
-          // const data = true;
-          res.send("true");
-      }
-  });
-})
+    }
+  );
+});
 
 app.listen(port, () => console.log("Connected to port " + port));
