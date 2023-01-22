@@ -31,12 +31,12 @@ const LoginForm = () => {
       });
   }, [username]);
 
-  useEffect(() => {
-    if (loginState) {
-      //   alert("work");
-      //   <Navigate to="/home" replace={true} />;
-    }
-  }, [loginState]);
+//   useEffect(() => {
+//     if (loginState) {
+//       //   alert("work");
+//       //   <Navigate to="/home" replace={true} />;
+//     }
+//   }, [loginState]);
 
   return (
     <div>
