@@ -50,23 +50,14 @@ app.post("/login", (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
 
-  console.log(username, password);
-
-  Log.find(
-    { username: `${username}` },
-    { password: `${password}` },
-    (err, docs) => {
-      if (docs.length == 0) {
-        // console.log('acc not found');
-        res.send("Invalid credentials");
-      } else {
-        // console.log('acc found');
-        // console.log(username);
-        // const data = true;
-        res.send("true");
-      }
+  Log.find({username: `${username}`}, {password: `${password}`}, (err, docs)=>{
+    if(docs.length == 0){
+        res.status(400).send('Invalid credentials')
     }
-  );
-});
+    else{
+        res.send("true");
+    }
+  });  
+})
 
 app.listen(port, () => console.log("Connected to port " + port));
