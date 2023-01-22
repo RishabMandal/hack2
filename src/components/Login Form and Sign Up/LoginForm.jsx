@@ -24,10 +24,11 @@ const LoginForm = () => {
         username: username,
         password: password
       })
-      .then(async (response) => {
-        // console.log(response.data);
-        // setLoginState(response.data);
-        alert('chal jaa')
+      .then((response) => {
+        if(response.data == true){
+          console.log('finee');
+          setLoginState(true);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -51,7 +52,7 @@ const LoginForm = () => {
       <NavLink className="bg-red-600 block text-white p-2 m-5" to="/home">
         Go to Home Page
       </NavLink>
-      {/* {loginState && <Navigate to="/home" replace={true} />} */}
+      {loginState && <Navigate to="/home" replace={true} />}
       <button
         onClick={() => setLoginState(true)}
         className="bg-red-600 rounded-md block text-white p-2 m-5"
@@ -75,8 +76,8 @@ const LoginForm = () => {
           />
           <button
             onClick={() => {
-              setUsername(usernameref);
-              setPassword(passwordref);
+              setUsername(usernameref.current.value);
+              setPassword(passwordref.current.value);
             }}
             className="bg-red-600 hover:bg-red-700 text-white p-2 m-5"
           >
