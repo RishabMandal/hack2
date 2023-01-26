@@ -6,11 +6,41 @@ import { useRef } from "react";
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { usernameContext } from "../../Navigation/Navigation";
 import { passwordContext } from "../../Navigation/Navigation";
+import { auth, provider } from "../../firebase.js";
+import { signInWithPopup } from "firebase/auth";
 
 const LoginForm = () => {
   // Context
   const { username, setUsername } = useContext(usernameContext);
   const { password, setPassword } = useContext(passwordContext);
+
+  // User sign in
+  const [signin, setsignin] = useState(false);
+  const [alertstate, setalertstate] = useState(false);
+  const [userEmail, setuserEmail] = useState();
+  //   const [username, setusername] = useState();
+
+  // Navigate
+  const navigate = useNavigate();
+
+  function handlesignin() {
+    signInWithPopup(auth, provider).then((data) => {
+      // console.log(data);
+      setuserEmail(data.user.email);
+      setUsername(data.user.displayName);
+      localStorage.setItem("userEmail", data.user.email);
+      localStorage.setItem("userName", data.user.displayName);
+    });
+  }
+
+  useEffect(() => {
+    setuserEmail(localStorage.getItem("userEmail"));
+    setUsername(localStorage.getItem("userName"));
+    if (userEmail) {
+      navigate("/home");
+      //   setsignin(true);
+    }
+  });
 
   const usernameref = useRef();
   const passwordref = useRef();
@@ -18,9 +48,6 @@ const LoginForm = () => {
   // Login state, false means login page is active
   const [loginState, setLoginState] = useState(false);
   const [err, seterr] = useState();
-
-  // Navigate
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (username && password)
@@ -93,6 +120,17 @@ const LoginForm = () => {
           <NavLink className="bg-red-600 block text-white p-2 m-5" to="/signup">
             Go to Sign Up Page
           </NavLink>
+          <button
+            onClick={() => {
+              //   navigate("/home");
+              //   setLoginState(true);
+              handlesignin();
+            }}
+            className="bg-red-600 rounded-md block text-white p-2 m-5"
+            to="/home"
+          >
+            Sign in with Google
+          </button>
           <button
             onClick={() => {
               navigate("/home");
